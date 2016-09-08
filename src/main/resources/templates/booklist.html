@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+</head>
+<body>
+<h1>Book List</h1>
+<ul>
+    <li th:each="item : ${items}" 
+        th:text="${item.text} + ${item.genre}">title jenre</li>
+</ul>
+</body>
+</html>
