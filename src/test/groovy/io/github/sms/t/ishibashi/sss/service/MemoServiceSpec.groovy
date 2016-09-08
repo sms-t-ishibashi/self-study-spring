@@ -3,6 +3,7 @@ package io.github.sms.t.ishibashi.sss.service
 import io.github.sms.t.ishibashi.sss.model.Memo
 import io.github.sms.t.ishibashi.sss.repository.MemoRepository
 
+import org.mockito.ArgumentCaptor
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
 
@@ -61,6 +62,22 @@ class MemoServiceSpec extends Specification {
     [makeMemo("メモ1", "カイポチ"), makeMemo("メモ2", "カイポチ")] | "カイポチ"
   }
   
+  def "writeでリポジトリにMemoデータが正しく渡っていること"() {
+    setup:
+    Mockito.doNothing().when(memoRepository).save(Mockito.any())
+    ArgumentCaptor<Memo> args = ArgumentCaptor.forClass(Memo.class)
+    
+    expect:
+    memoService.write(memo, author)
+    Mockito.verify(memoRepository).save(args.capture())
+    assert memo == args.getValue().getMemo()
+    assert author == args.getValue().getAuthor()
+    
+    where:
+    memo | author
+    "メモメモメモ" | "カイポチ"
+    "abcdefghijkl" | "linda"
+  }
   
   def makeMemo(String memo, String author) {
     Memo modelMemo = new Memo()
