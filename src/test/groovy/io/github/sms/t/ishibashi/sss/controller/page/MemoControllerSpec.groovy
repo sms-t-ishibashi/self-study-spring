@@ -18,7 +18,7 @@ class MemoControllerSpec extends Specification {
   @Autowired
   MockMvc mockMvc
   
-  def "getは正しいビューを返す"() {
+  def "リクエストが'#page'の時、viewは'#view'を返し、statusは'#status'であること"() {
 
     expect:
     mockMvc.perform(MockMvcRequestBuilders.get(page))
