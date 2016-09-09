@@ -59,27 +59,66 @@ class JdbcMemoRepositorySpec extends Specification {
   
   
   def "Memoが全量検索できること"() {
+    setup:
+    def testData = [
+      ['Spring Bootを学ぶ' , '金次郎', '2016-09-08 17:01:00.0'],
+      ['Spockを学ぶ'       , '金太郎', '2016-09-08 17:02:00.0'],
+      ['Thymeleafを学ぶ'       , '金字塔', '2016-09-08 17:03:00.0'],
+      ['Flywayを学ぶ'       , '金さん銀さん', '2016-09-08 17:04:00.0']
+    ]
+    
+    def insertOps = Operations.insertInto('MEMO')
+      .columns('MEMO', 'AUTHOR', 'CREATED')
+
+    for (def item : testData) {
+      insertOps.values((Object[]) item.toArray());
+    }
+
+    new DbSetup(destination,
+      Operations.sequenceOf(Operations.truncate('MEMO'), insertOps.build())).launch()
     
     when:
-    List<Memo> results = repository.find()
+    def results = repository.find()
     
     then:
-    "Spring Bootを学ぶ" == results.get(0).getMemo()
-    "金次郎" == results.get(0).getAuthor()
-    "Spockを学ぶ" == results.get(1).getMemo()
-    "金太郎" == results.get(1).getAuthor()
-    "Thymeleafを学ぶ" == results.get(2).getMemo()
-    "金字塔" == results.get(2).getAuthor()
-    "Flywayを学ぶ" == results.get(3).getMemo()
-    "金さん銀さん" == results.get(3).getAuthor()
+    assert results.size() == testData.size()
+    
+    for (def i = 0; i < results.size(); i++) {
+      assert results[i].author == testData[i][1]
+      assert results[i].memo == testData[i][0]
+    }
   }
   
   
   def "指定したauthorのメモが検索できること"() {
+    setup:
+    def testData = [
+      ['Spring Bootを学ぶ' , '金次郎', '2016-09-08 17:01:00.0'],
+      ['Spockを学ぶ'       , '金次郎', '2016-09-08 17:02:00.0'],
+      ['Thymeleafを学ぶ'       , '金字塔', '2016-09-08 17:03:00.0'],
+      ['Flywayを学ぶ'       , '金さん銀さん', '2016-09-08 17:04:00.0']
+    ]
     
+    def insertOps = Operations.insertInto('MEMO')
+      .columns('MEMO', 'AUTHOR', 'CREATED')
+
+    for (def item : testData) {
+      insertOps.values((Object[]) item.toArray());
+    }
+
+    new DbSetup(destination,
+      Operations.sequenceOf(Operations.truncate('MEMO'), insertOps.build())).launch()
+      
+    when:
+    def results = repository.findByAuthor("金次郎")
     
+    then:
+    assert results.size() == 2
     
-    
+    for (def i = 0; i < results.size(); i++) {
+      assert results[i].author == "金次郎"
+      assert results[i].memo == testData[i][0]
+    }
   }
   
   def makeMemo(String memo, String author) {
