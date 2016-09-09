@@ -40,7 +40,7 @@ class JdbcMemoRepositorySpec extends Specification {
     .build()
   }
   
-  def "Memoが保存できること"() {
+  def "memo= '#memo' 、author= '#author' のMemoがRepositoryに渡ること"() {
     setup:
     Memo item = makeMemo(memo, author)
     
@@ -53,25 +53,25 @@ class JdbcMemoRepositorySpec extends Specification {
     where:
     memo | author
     "保存するメモ" | "カイポチさん"
+    "" | "メモが空文字"
+    "authorが空文字" | ""
   }
   
   
   def "Memoが全量検索できること"() {
     
-    expect:
+    when:
     List<Memo> results = repository.find()
-    for(Memo expected: results) {
-      assert memo == expected.getMemo()
-      assert author == expected.getAuthor()
-      assert created == expected.getCreated()
-    }
     
-    where:
-    memo | author | created
-    'Spring Bootを学ぶ' | '金次郎' | '2016-09-08 17:01:00.0'
-    'Spockを学ぶ' | '金太郎' | '2016-09-08 17:02:00.0'
-    'Thymeleafを学ぶ' | '金字塔' | '2016-09-08 17:03:00.0'
-    'Flywayを学ぶ' | '金さん銀さん' | '2016-09-08 17:04:00.0'
+    then:
+    "Spring Bootを学ぶ" == results.get(0).getMemo()
+    "金次郎" == results.get(0).getAuthor()
+    "Spockを学ぶ" == results.get(1).getMemo()
+    "金太郎" == results.get(1).getAuthor()
+    "Thymeleafを学ぶ" == results.get(2).getMemo()
+    "金字塔" == results.get(2).getAuthor()
+    "Flywayを学ぶ" == results.get(3).getMemo()
+    "金さん銀さん" == results.get(3).getAuthor()
   }
   
   
