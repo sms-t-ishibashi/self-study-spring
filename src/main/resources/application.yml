@@ -5,3 +5,6 @@ spring:
     url: jdbc:hsqldb:file:memo.datastore
     username: sa
     password:
+ 
+server: 
+  port: 9001

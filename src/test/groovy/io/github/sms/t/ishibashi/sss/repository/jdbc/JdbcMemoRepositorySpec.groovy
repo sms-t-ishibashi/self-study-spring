@@ -89,7 +89,6 @@ class JdbcMemoRepositorySpec extends Specification {
     }
   }
   
-  
   def "指定したauthorのメモが検索できること"() {
     setup:
     def testData = [
