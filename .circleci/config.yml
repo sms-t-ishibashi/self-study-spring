@@ -46,6 +46,6 @@ jobs:
             curl \
               -X POST \
               --data-urlencode \
-              "payload={"channel": "#times_14bassy", "username": "webhookbot", "text": "${MSG}"}" \
+              payload='{"channel": "#times_14bassy", "username": "webhookbot", "text": "${MSG}"}' \
               https://hooks.slack.com/services/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
 
