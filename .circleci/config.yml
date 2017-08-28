@@ -39,3 +39,12 @@ jobs:
 
       # run tests!
       - run: mvn integration-test
+      - run:
+          command: |
+          echo MSG="${CIRCLE_PROJECT_REPONAME}の${CIRCLE_BUILD_NUM}がビルドだん！！アーティファクトゲットしてデプロイしなはれ！！"
+          curl \
+            -X POST \
+            --data-urlencode \
+            'payload={"channel": "#times_14bassy", "username": "webhookbot", "text": ${MSG}}' \
+            https://hooks.slack.com/services/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
+
