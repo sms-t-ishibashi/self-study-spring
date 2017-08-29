@@ -42,18 +42,17 @@ jobs:
       - run:
           name: webhook
           command: |
-            MSG="${CIRCLE_PROJECT_REPONAME}の${CIRCLE_BUILD_NUM}がビルドだん！！アーティファクトゲットしてデプロイしなはれ！！"
+            TEXT="BuildSucceeded"
             CHANNEL="#times_14bassy"
             USERNAME="webhookbot"
-
-            TEXT=$(cat << EOT
-            '{ "channel": "${CHANNEL}", "username": "${USERNAME}", "text": "${MSG}"}'
+            DATA=$(cat << EOT
+            {"channel":"${CHANNEL}","username":"${USERNAME}","text":"${TEXT}"}
             EOT
             )
 
             curl \
               -X POST \
-              --data-urlencode \
-              payload=${TEXT} \
+              -H 'Content-type:application/json' \
+              --data ${DATA} \
               https://hooks.slack.com/services/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
 
