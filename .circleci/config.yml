@@ -47,11 +47,7 @@ jobs:
             USERNAME="webhookbot"
 
             TEXT=$(cat << EOT
-            '{
-            "channel": "${CHANNEL}",
-            "username": "${USERNAME}",
-            "text": "${MSG}"
-            }'
+            '{ "channel": "${CHANNEL}", "username": "${USERNAME}", "text": "${MSG}"}'
             EOT
             )
 
