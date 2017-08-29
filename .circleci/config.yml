@@ -45,7 +45,7 @@ jobs:
             MSG="${CIRCLE_PROJECT_REPONAME}の${CIRCLE_BUILD_NUM}がビルドだん！！アーティファクトゲットしてデプロイしなはれ！！"
             TEXT=$(cat << EOT
             '{
-            "channel": "#times_14bassy",
+            "channel": "\#times_14bassy",
             "username": "webhookbot",
             "text": "${MSG}"
             }'
