@@ -43,12 +43,15 @@ jobs:
           name: webhook
           command: |
             MSG="${CIRCLE_PROJECT_REPONAME}の${CIRCLE_BUILD_NUM}がビルドだん！！アーティファクトゲットしてデプロイしなはれ！！"
+            CHANNEL="#times_14bassy"
+            USERNAME="webhookbot"
+
             TEXT=$(cat << EOT
-            \'{
-            "channel": "#times_14bassy",
-            "username": "webhookbot",
+            '{
+            "channel": "${CHANNEL}",
+            "username": "${USERNAME}",
             "text": "${MSG}"
-            }\'
+            }'
             EOT
             )
 
