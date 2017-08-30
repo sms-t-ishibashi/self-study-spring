@@ -55,4 +55,7 @@ jobs:
               -H 'Content-type:application/json' \
               --data ${DATA} \
               https://hooks.slack.com/services/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
-
+notify:
+  webhooks:
+    # A list of hook hashes, containing the URL field
+    - url: https://hooks.slack.com/services/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
