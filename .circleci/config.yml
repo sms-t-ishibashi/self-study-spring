@@ -39,7 +39,12 @@ jobs:
 
       # run tests!
       - run: mvn integration-test
-notify:
-  webhooks:
-    # A list of hook hashes, containing the URL field
-    - url: https://hooks.slack.com/services/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
+      - run:
+          name: webhook
+          command: |
+            SLACK_CHANNEL="#times_14bassy"
+            SLACK_WEBHOOK_URL="https://hooks.slack.com/services/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"
+
+            readonly DATA=$(echo "{\"channel\":\"${SLACK_CHANNEL}\",\"username\":\"${CIRCLE_USERNAME}\",\"text\":\"${CIRCLE_PROJECT_REPONAME}のビルドが完了しました。デプロイ可能です。\nアーティファクトを取得してください${CIRCLE_BUILD_URL}\"}")
+            curl -X POST -H 'Content-type:application/json' --data $(echo "${DATA}") ${SLACK_WEBHOOK_URL}
+
