@@ -39,22 +39,6 @@ jobs:
 
       # run tests!
       - run: mvn integration-test
-      - run:
-          name: webhook
-          command: |
-            TEXT="BuildSucceeded"
-            CHANNEL="#times_14bassy"
-            USERNAME="webhookbot"
-            DATA=$(cat << EOT
-            {"channel":"${CHANNEL}","username":"${USERNAME}","text":"${TEXT}"}
-            EOT
-            )
-
-            curl \
-              -X POST \
-              -H 'Content-type:application/json' \
-              --data ${DATA} \
-              https://hooks.slack.com/services/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
 notify:
   webhooks:
     # A list of hook hashes, containing the URL field
